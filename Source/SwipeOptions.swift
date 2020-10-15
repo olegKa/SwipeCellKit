@@ -45,6 +45,11 @@ public struct SwipeOptions {
     /// The amount of space, in points, between the button image and the button title.
     public var buttonSpacing: CGFloat?
     
+    public var cornerRadius: CGFloat?
+    public var corners: SwapActionCorners = []
+    
+    public var fullExpand: Bool = false
+    
     /// Constructs a new `SwipeOptions` instance with default options.
     public init() {}
 }
@@ -85,4 +90,29 @@ public enum SwipeVerticalAlignment {
     ///
     /// - note: Buttons with varying number of lines will not be consistently aligned across the swipe view.
     case center
+}
+
+public struct SwapActionCorners: OptionSet {
+    public let rawValue: Int
+    
+    public static let top = SwapActionCorners(rawValue: 1 << 0)
+    public static let bottom = SwapActionCorners(rawValue: 1 << 1)
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    var cornersRight: CACornerMask {
+        var corners: CACornerMask = []
+        if self.contains(.top) { corners = corners.union(.layerMaxXMinYCorner) }
+        if self.contains(.bottom) { corners = corners.union(.layerMaxXMaxYCorner) }
+        return corners
+    }
+    
+    var cornersLeft: CACornerMask {
+        var corners: CACornerMask = []
+        if self.contains(.top) { corners = corners.union(.layerMinXMinYCorner) }
+        if self.contains(.bottom) { corners = corners.union(.layerMinXMaxYCorner) }
+        return corners
+    }
 }

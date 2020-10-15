@@ -177,6 +177,11 @@ open class SwipeTableViewCell: UITableViewCell {
         }
         isPreviouslySelected = false
     }
+    
+    override open var backgroundColor: UIColor? {
+        get { return super.backgroundColor }
+        set { actionsView?.backgroundColor = newValue }
+    }
 }
 
 extension SwipeTableViewCell: SwipeControllerDelegate {

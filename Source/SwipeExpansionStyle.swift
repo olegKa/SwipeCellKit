@@ -85,7 +85,7 @@ public struct SwipeExpansionStyle {
     }
     
     func shouldExpand(view: Swipeable, gesture: UIPanGestureRecognizer, in superview: UIView, within frame: CGRect? = nil) -> Bool {
-        guard let actionsView = view.actionsView, let gestureView = gesture.view else { return false }
+        guard let actionsView = view.actionsView, let gestureView = gesture.view, actionsView.options.fullExpand == true else { return false }
         guard abs(gesture.translation(in: gestureView).x) > minimumExpansionTranslation else { return false }
     
         let xDelta = floor(abs(frame?.minX ?? view.frame.minX))
