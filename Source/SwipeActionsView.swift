@@ -175,6 +175,21 @@ class SwipeActionsView: UIView {
             button.verticalAlignment = options.buttonVerticalAlignment
             button.shouldHighlight = action.hasBackgroundColor
             
+            if let cornerRadius = options.cornerRadius {
+                if #available(iOS 11.0, *){
+                    if  index == buttons.count - 1 {
+                        button.layer.cornerRadius = cornerRadius
+                        button.layer.maskedCorners = orientation == .right ? options.corners.cornersRight : options.corners.cornersLeft
+                        
+                    }
+                    button.clipsToBounds = true
+                    button.backgroundColor = action.backgroundColor
+                    wrapperView.actionBackgroundColor = .clear
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+            
             wrapperView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             wrapperView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
             
@@ -279,6 +294,12 @@ class SwipeActionsView: UIView {
         if expanded {
             subviews.last?.frame.origin.x = 0 + bounds.origin.x
         }
+    }
+    
+    override open func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        backgroundColor = superview?.backgroundColor
     }
 }
 
